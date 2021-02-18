@@ -1,11 +1,11 @@
-import React, { useState, useEffect } from 'react'
-import List from './List'
+import React, { useState, useEffect, FormEvent } from 'react'
+import List, { Item } from './List'
 import Alert from './Alert'
 
 const getLocalStorage = () => {
-  let list = localStorage.getItem('list')
+  const list = localStorage.getItem('list')
   if (list) {
-    return JSON.parse(localStorage.getItem('list'))
+    return JSON.parse(list)
   } else {
     return []
   }
@@ -13,12 +13,12 @@ const getLocalStorage = () => {
 
 function App() {
   const [item, setItem] = useState('')
-  const [list, setList] = useState(getLocalStorage())
+  const [list, setList] = useState<Item[]>(getLocalStorage())
   const [isEditing, setIsEditing] = useState(false)
-  const [editID, setEditID] = useState(null)
+  const [editID, setEditID] = useState<string | null>(null)
   const [alert, setAlert] = useState({ show: false, msg: '', type: '' })
 
-  const handleSubmit = (e) => {
+  const handleSubmit = (e: FormEvent) => {
     e.preventDefault()
     if (!item) {
       showAlert(true, 'danger', 'please insert value')
@@ -53,19 +53,19 @@ function App() {
     showAlert(true, 'danger', 'list empty')
   }
 
-  const removeItem = (id) => {
+  const removeItem = (id: string) => {
     showAlert(true, 'danger', 'item removed')
     const updatedList = list.filter((item) => item.id !== id)
     setList(updatedList)
   }
 
-  const editItem = (id) => {
+  const editItem = (id: string) => {
     const specificItem = list.find((item) => item.id === id)
-    console.log(id)
-    console.log(specificItem)
     setIsEditing(true)
     setEditID(id)
-    setItem(specificItem.title)
+    if (specificItem) {
+      setItem(specificItem.title)
+    }
   }
 
   useEffect(() => {

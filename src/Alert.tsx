@@ -1,6 +1,14 @@
 import React, { useEffect } from 'react'
+import { Item } from './List'
 
-const Alert = ({ type, msg, removeAlert, list }) => {
+type Props = {
+  type: string
+  msg: string
+  removeAlert: () => void
+  list: Item[]
+}
+
+const Alert = ({ type, msg, removeAlert, list }: Props) => {
   useEffect(() => {
     const id = setTimeout(() => {
       removeAlert()

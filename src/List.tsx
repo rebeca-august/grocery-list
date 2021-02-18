@@ -1,6 +1,18 @@
 import React from 'react'
 import { FaEdit, FaTrash } from 'react-icons/fa'
-const List = ({ items, removeItem, editItem }) => {
+
+export type Item = {
+  id: string
+  title: string
+}
+
+export type Props = {
+  items: Item[]
+  removeItem: (id: string) => void
+  editItem: (id: string) => void
+}
+
+const List = ({ items, removeItem, editItem }: Props) => {
   return (
     <div className="grocery-list">
       {items.map((item) => {
